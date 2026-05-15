@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Fragment } from "react"
+import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,10 +10,11 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { StatusBadge } from "@/components/shared/StatusBadge"
 import { PixViewer } from "@/components/charges/PixViewer"
 import { formatCurrency, formatDate } from "@/utils/formatters"
-import { Plus } from "lucide-react"
+import { Plus, ChevronDown, ChevronRight } from "lucide-react"
 import type { Charge } from "@/types"
 
 export default function ChargesPage() {
+  const router = useRouter()
   const [charges, setCharges] = useState<Charge[]>([])
   const [loading, setLoading] = useState(true)
   const [expandedId, setExpandedId] = useState<string | null>(null)
@@ -43,7 +45,7 @@ export default function ChargesPage() {
     <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Cobranças</h1>
-        <Button>
+        <Button onClick={() => router.push("/charges/new")}>
           <Plus className="h-4 w-4 mr-2" /> Nova Cobrança
         </Button>
       </div>
@@ -66,7 +68,7 @@ export default function ChargesPage() {
             </TableHeader>
             <TableBody>
               {charges.map((charge) => (
-                <>
+                <Fragment key={charge.id}>
                   <TableRow
                     key={charge.id}
                     className="cursor-pointer"
@@ -85,7 +87,7 @@ export default function ChargesPage() {
                       </TableCell>
                     </TableRow>
                   )}
-                </>
+                </Fragment>
               ))}
             </TableBody>
           </Table>
