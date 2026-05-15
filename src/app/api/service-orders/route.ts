@@ -95,19 +95,30 @@ export async function POST(request: NextRequest) {
   }
 
   const { next_service_date, next_service_mileage, charge_on_complete, ...data } = parsed.data
-  const { data: userData } = await supabase.auth.getUser()
-  const user_id = userData.user?.id
+  const { data: userData, error: userError } = await supabase.auth.getUser()
+  const user_id = userData?.user?.id
+
+  if (!user_id) {
+    return NextResponse.json({ error: 'Usuário não autenticado', details: userError }, { status: 401 })
+  }
 
   const insertData: Record<string, unknown> = {
-    ...data,
+    customer_id: data.customer_id,
+    vehicle_id: data.vehicle_id,
     user_id,
+    diagnosis: data.diagnosis || '',
+    parts_total: data.parts_total || 0,
+    labor_total: data.labor_total || 0,
+    mileage: data.mileage || null,
+    status: data.status || 'open',
     charge_on_complete: charge_on_complete || false,
+    next_service_date: next_service_date || null,
+    next_service_mileage: next_service_mileage || null,
   }
-  if (data.diagnosis) insertData.diagnosis = data.diagnosis
 
   const { data: order, error } = await supabase
     .from('service_orders')
-    .insert(insertData)
+    .insert([insertData])
     .select(`
       *,
       customer:customers(*),

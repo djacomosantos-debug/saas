@@ -111,12 +111,16 @@ export function ServiceOrderForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
-      if (!res.ok) throw new Error('Erro ao criar ordem de serviço')
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}))
+        throw new Error(errData.error || 'Erro ao criar ordem de serviço')
+      }
       toast.success('Ordem de serviço criada com sucesso!')
-      router.push('/dashboard/service-orders')
+      router.push('/service-orders')
       router.refresh()
-    } catch {
-      toast.error('Erro ao criar ordem de serviço')
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Erro ao criar ordem de serviço'
+      toast.error(message)
     } finally {
       setSubmitting(false)
     }
