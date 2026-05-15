@@ -45,7 +45,7 @@ export function ServiceOrderForm() {
     setLoadingCustomers(true)
     fetch(`/api/customers?search=${encodeURIComponent(debouncedSearch)}&limit=5`)
       .then((res) => res.json())
-      .then((data) => setCustomers(data.customers || []))
+      .then((data) => setCustomers(data.data || []))
       .catch(() => setCustomers([]))
       .finally(() => setLoadingCustomers(false))
   }, [debouncedSearch])
@@ -54,7 +54,7 @@ export function ServiceOrderForm() {
     if (!selectedCustomerId) { setVehicles([]); return }
     fetch(`/api/vehicles?customer_id=${selectedCustomerId}`)
       .then((res) => res.json())
-      .then((data) => setVehicles(data.vehicles || []))
+      .then((data) => setVehicles(data.data || []))
       .catch(() => setVehicles([]))
   }, [selectedCustomerId])
 
