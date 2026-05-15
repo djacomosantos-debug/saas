@@ -57,7 +57,6 @@ export default function RegisterPage() {
       const { error: profileError } = await supabase.from("profiles").insert({
         id: authData.user.id,
         name: data.name,
-        email: data.email,
       })
 
       if (profileError) {
