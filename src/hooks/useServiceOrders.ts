@@ -1,5 +1,4 @@
-import { createClient } from '@/lib/supabase/client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import type { ServiceOrder } from '@/types'
 
 export function useServiceOrders(filters?: {
@@ -8,31 +7,34 @@ export function useServiceOrders(filters?: {
   vehicle_id?: string
   date_from?: string
   date_to?: string
+  customerSearch?: string
 }) {
   const [orders, setOrders] = useState<ServiceOrder[]>([])
   const [loading, setLoading] = useState(true)
 
+  const key = JSON.stringify(filters ?? {})
+
   useEffect(() => {
+    let aborted = false
     async function load() {
       setLoading(true)
-      const supabase = createClient()
-      let query = supabase
-        .from('service_orders')
-        .select('*, customer:customers(*), vehicle:vehicles(*)')
+      const params = new URLSearchParams()
+      if (filters?.status) params.set('status', filters.status)
+      if (filters?.date_from) params.set('date_from', filters.date_from)
+      if (filters?.date_to) params.set('date_to', filters.date_to)
+      if (filters?.customerSearch) params.set('customerSearch', filters.customerSearch)
+      params.set('limit', '50')
 
-      if (filters?.status) query = query.eq('status', filters.status)
-      if (filters?.customer_id) query = query.eq('customer_id', filters.customer_id)
-      if (filters?.vehicle_id) query = query.eq('vehicle_id', filters.vehicle_id)
-      if (filters?.date_from) query = query.gte('created_at', filters.date_from)
-      if (filters?.date_to) query = query.lte('created_at', filters.date_to)
-
-      const { data } = await query.order('created_at', { ascending: false })
-
-      if (data) setOrders(data)
-      setLoading(false)
+      const res = await fetch(`/api/service-orders?${params}`)
+      const data = await res.json()
+      if (!aborted) {
+        setOrders(data.orders || [])
+        setLoading(false)
+      }
     }
     load()
-  }, [filters])
+    return () => { aborted = true }
+  }, [key])
 
   return { orders, loading }
 }

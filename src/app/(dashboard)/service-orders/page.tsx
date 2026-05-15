@@ -58,6 +58,7 @@ export default function ServiceOrdersPage() {
         status={status}
         dateFrom={dateFrom}
         dateTo={dateTo}
+        customerSearch={customerSearch}
       />
     </div>
   )
