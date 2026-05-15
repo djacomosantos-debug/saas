@@ -56,13 +56,13 @@ export function UserMenu() {
         <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/configuracoes" className="flex cursor-pointer items-center gap-2">
+          <Link href="/settings" className="flex cursor-pointer items-center gap-2">
             <UserIcon className="h-4 w-4" />
             Perfil
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/configuracoes" className="flex cursor-pointer items-center gap-2">
+          <Link href="/settings" className="flex cursor-pointer items-center gap-2">
             <Settings className="h-4 w-4" />
             Configurações
           </Link>

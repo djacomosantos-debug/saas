@@ -13,13 +13,13 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/clientes", label: "Clientes", icon: Users },
-  { href: "/dashboard/veiculos", label: "Veículos", icon: Car },
-  { href: "/dashboard/os", label: "Ordens de Serviço", icon: ClipboardList },
-  { href: "/dashboard/orcamentos", label: "Orçamentos", icon: FileText },
-  { href: "/dashboard/lembretes", label: "Lembretes", icon: Bell, badge: true },
-  { href: "/dashboard/cobrancas", label: "Cobranças", icon: CreditCard },
-  { href: "/dashboard/configuracoes", label: "Configurações", icon: Settings },
+  { href: "/customers", label: "Clientes", icon: Users },
+  { href: "/vehicles", label: "Veículos", icon: Car },
+  { href: "/service-orders", label: "Ordens de Serviço", icon: ClipboardList },
+  { href: "/estimates", label: "Orçamentos", icon: FileText },
+  { href: "/reminders", label: "Lembretes", icon: Bell, badge: true },
+  { href: "/charges", label: "Cobranças", icon: CreditCard },
+  { href: "/settings", label: "Configurações", icon: Settings },
 ]
 
 const pendingCount = 7

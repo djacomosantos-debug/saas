@@ -13,13 +13,14 @@ interface TopbarProps {
 
 const pageTitles: Record<string, string> = {
   "/dashboard": "Dashboard",
-  "/dashboard/clientes": "Clientes",
-  "/dashboard/veiculos": "Veículos",
-  "/dashboard/os": "Ordens de Serviço",
-  "/dashboard/orcamentos": "Orçamentos",
-  "/dashboard/lembretes": "Lembretes",
-  "/dashboard/cobrancas": "Cobranças",
-  "/dashboard/configuracoes": "Configurações",
+  "/customers": "Clientes",
+  "/vehicles": "Veículos",
+  "/service-orders": "Ordens de Serviço",
+  "/estimates": "Orçamentos",
+  "/reminders": "Lembretes",
+  "/charges": "Cobranças",
+  "/settings": "Configurações",
+  "/billing": "Planos e Faturamento",
 }
 
 export function Topbar({ onMenuClick }: TopbarProps) {
