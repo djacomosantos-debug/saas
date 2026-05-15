@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AutoRecall CRM
 
-## Getting Started
+Sistema de gestão para oficinas mecânicas que automatiza o retorno de clientes via WhatsApp, organiza ordens de serviço e aumenta o faturamento recorrente.
 
-First, run the development server:
+## Stack
 
+- **Next.js 15** (App Router, Server Components, Server Actions)
+- **TypeScript** estrito
+- **Tailwind CSS v3** + **shadcn/ui**
+- **Supabase** (Auth, PostgreSQL, Storage)
+- **Recharts** (gráficos do dashboard)
+- **Evolution API** (WhatsApp)
+- **Asaas** (PIX e cobranças)
+
+## Funcionalidades
+
+- ✅ Autenticação completa (login, cadastro, recuperação de senha)
+- ✅ Dashboard com dados reais do Supabase
+- ✅ CRUD completo: Clientes, Veículos, Ordens de Serviço
+- ✅ Criação e envio de orçamentos via WhatsApp
+- ✅ Sistema de lembretes automáticos
+- ✅ Cobrança via PIX (Asaas)
+- ✅ Webhooks (Asaas e Evolution)
+- ✅ RLS habilitado no Supabase
+- ✅ Responsivo (mobile-first)
+- ✅ Dark/Light mode
+- ✅ Onboarding wizard
+
+## Pré-requisitos
+
+- Node.js 18+
+- Supabase project
+- Evolution API instance
+- Asaas account (sandbox)
+
+## Setup
+
+1. Clone o repositório:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <url>
+cd autorecall-crm
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Copie o arquivo de ambiente:
+```bash
+cp .env.local.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Preencha as variáveis de ambiente no `.env.local`:
+   - Supabase: URL, Anon Key, Service Role Key
+   - Evolution API: URL, Key, Instance
+   - Asaas: API Key
+   - App URL
 
-## Learn More
+5. Execute o schema SQL no Supabase:
+   - Abra o SQL Editor no Supabase
+   - Cole e execute o conteúdo de `supabase/migrations/001_initial_schema.sql`
 
-To learn more about Next.js, take a look at the following resources:
+6. Inicie o servidor de desenvolvimento:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estrutura do Projeto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/
+│   ├── (auth)/          # Páginas de autenticação
+│   ├── (dashboard)/     # Páginas do dashboard
+│   ├── api/             # API routes
+│   └── public/          # Páginas públicas
+├── components/
+│   ├── layout/          # Sidebar, Topbar, UserMenu
+│   ├── dashboard/       # Cards, Gráficos
+│   ├── customers/       # Tabela, Formulário
+│   ├── vehicles/        # Tabela, Formulário, Card
+│   ├── service-orders/  # Tabela, Formulário, Editors
+│   ├── estimates/       # Builder, ApprovalCard
+│   ├── reminders/       # Calendar
+│   ├── charges/         # Form, PixViewer
+│   ├── settings/        # WhatsApp, Templates, Billing
+│   └── shared/          # StatusBadge, SearchInput, Filters
+├── hooks/               # Custom hooks
+├── lib/                 # API wrappers
+├── services/            # Business logic
+├── types/               # TypeScript types
+└── utils/               # Formatters, validators
+```
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Conecte o repositório ao Vercel
+2. Configure as variáveis de ambiente
+3. Deploy automático na branch main
+
+### Supabase
+
+O banco de dados e a autenticação são gerenciados pelo Supabase. O schema está em `supabase/migrations/001_initial_schema.sql`.
+
+## Licença
+
+MIT
