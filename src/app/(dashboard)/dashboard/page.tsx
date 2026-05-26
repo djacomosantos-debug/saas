@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Skeleton } from "@/components/ui/skeleton"
 import { createClient } from "@/lib/supabase/client"
 import { formatCurrency, formatDate, getStatusLabel } from "@/utils/formatters"
+import { ErrorBoundary } from "@/components/shared/ErrorBoundary"
 import type { ServiceOrder } from "@/types"
 
 export default function DashboardPage() {
@@ -38,11 +39,11 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <DashboardCards />
+      <ErrorBoundary><DashboardCards /></ErrorBoundary>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <RevenueChart />
-        <ReturnRateChart />
+        <ErrorBoundary><RevenueChart /></ErrorBoundary>
+        <ErrorBoundary><ReturnRateChart /></ErrorBoundary>
       </div>
 
       <div>
